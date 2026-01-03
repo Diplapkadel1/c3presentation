@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://diplapkadel1.github.io/c3presentation/sitemap.xml
