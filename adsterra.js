@@ -1,42 +1,59 @@
-// Adsterra Universal Ads for Non-AMP Pages
+// adsterra.js - universal post ad injector
 (function(){
-  // skip AMP pages
-  if(window.location.search.indexOf('amp=1') !== -1) return;
+  const ads = [
+    { key: '23a7306f3746baf5e282220accc0ec36', width: 728, height: 90 },
+    { key: '3c4c9775031a839da7419e0d8d29b487', width: 468, height: 60 },
+    { key: '024ef73d11637fd2fb436e014a8f4196', width: 160, height: 300 },
+    { key: '5b31a0ac1e236105d5f94ad3a54b4ea8', width: 320, height: 50 },
+    { key: 'bffcc93df41448d6bbf447c64da8bb12', width: 160, height: 600 }
+  ];
 
-  function injectAd(key, width, height){
-    // container div for each ad
-    var container = document.createElement('div');
-    container.style.textAlign = "center";
-    container.style.margin = "10px auto";
-
-    // ad label
-    var label = document.createElement('div');
-    label.innerText = "Advertisement";
-    label.style.fontWeight = "700";
-    label.style.color = "#ffb74d";
-    label.style.fontSize = "14px";
-    label.style.marginBottom = "4px";
-    container.appendChild(label);
-
-    // create the Adsterra script
-    var s1 = document.createElement('script');
-    s1.type = 'text/javascript';
-    s1.innerHTML = "atOptions = {key:'"+key+"',format:'iframe',height:"+height+",width:"+width+",params:{}};";
-
-    var s2 = document.createElement('script');
-    s2.type = 'text/javascript';
-    s2.src = "//sponsorinserttimeout.com/"+key+"/invoke.js";
-
-    container.appendChild(s1);
-    container.appendChild(s2);
-
-    document.body.appendChild(container);
+  // pick a random ad
+  function pickAd() {
+    return ads[Math.floor(Math.random() * ads.length)];
   }
 
-  // Inject Banner 468x60
-  injectAd('3c4c9775031a839da7419e0d8d29b487', 468, 60);
+  function injectAd() {
+    const post = document.querySelector('#main'); // change to post container ID/class
+    if(!post) return;
 
-  // Inject Banner 728x90
-  injectAd('23a7306f3746baf5e282220accc0ec36', 728, 90);
+    const ad = pickAd();
+    const adWrapper = document.createElement('div');
+    adWrapper.style.cssText = `
+      text-align:center;
+      margin:20px auto;
+      padding:12px;
+      background:#fafafa;
+      border-radius:8px;
+      border:1px solid #ccc;
+      max-width:${ad.width}px;
+      overflow:hidden;
+      position:relative;
+      font-family:Arial,sans-serif;
+    `;
+    adWrapper.innerHTML = `
+      <div style="font-weight:700;color:#ff9800;font-size:12px;margin-bottom:6px;">Advertisement</div>
+      <script type="text/javascript">
+        atOptions = {
+          key:'${ad.key}',
+          format:'iframe',
+          width:${ad.width},
+          height:${ad.height},
+          params:{}
+        };
+      </script>
+      <script type="text/javascript" src="//sponsorinserttimeout.com/${ad.key}/invoke.js"></script>
+      <span onclick="this.parentElement.style.display='none'" style="position:absolute;top:2px;right:6px;font-size:14px;color:#999;cursor:pointer;">✕</span>
+    `;
 
+    post.prepend(adWrapper); // inject at top of post
+  }
+
+  // auto-refresh every 60 seconds
+  setInterval(function(){
+    injectAd();
+  }, 60000);
+
+  // initial injection
+  document.addEventListener('DOMContentLoaded', injectAd);
 })();
