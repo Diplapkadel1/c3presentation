@@ -1,78 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thanks for Watching</title>
-<style>
-    /* Full-screen 16:9 layout */
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: #0a0a0a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanks for Watching - Vocal Replay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cyan: #00f2ff;
+            --pink: #ff0055;
+            --bg: #050505;
+        }
 
-    .container {
-        width: 90%;
-        max-width: 1920px; /* 16:9 HD width */
-        height: 90%;
-        aspect-ratio: 16 / 9; /* ensures 16:9 ratio */
-        background: rgba(0,0,0,0.85);
-        border-radius: 20px;
-        border: 4px solid #ffcc00;
-        box-shadow: 0 0 30px #ffcc00;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 40px;
-        animation: glow 2s infinite alternate;
-    }
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--bg);
+            color: white; font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+        }
 
-    h1 {
-        font-size: 4rem;
-        color: #ffcc00;
-        margin-bottom: 20px;
-    }
+        /* ANIMATED BACKGROUND */
+        .timeout-stage {
+            width: 100%; height: 100vh;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative;
+            border: 10px solid #111;
+        }
 
-    p {
-        font-size: 2rem;
-        color: #ffffff;
-        margin: 10px 0;
-    }
+        /* ENERGY GLOW IN BACKGROUND */
+        .timeout-stage::before {
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 242, 255, 0.03), transparent);
+            background-size: 200% 200%; animation: moveGradient 5s linear infinite;
+        }
 
-    a {
-        font-size: 2rem;
-        color: #00ffff;
-        font-weight: bold;
-        text-decoration: none;
-        margin-top: 20px;
-    }
+        /* TOP BRANDING */
+        .top-brand {
+            position: absolute; top: 50px; display: flex; align-items: center; gap: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+        .logo {
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid var(--cyan); box-shadow: 0 0 20px var(--cyan);
+        }
+        .vocal-text { font-family: 'Orbitron'; font-size: 2rem; font-weight: 900; letter-spacing: 3px; }
+        .vocal-text span { color: var(--pink); }
 
-    a:hover {
-        text-decoration: underline;
-    }
+        /* CENTER CONTENT */
+        .center-ui { text-align: center; z-index: 10; }
 
-    @keyframes glow {
-        from { box-shadow: 0 0 20px #ffcc00; }
-        to { box-shadow: 0 0 50px #ffcc00; }
-    }
-</style>
+        .title {
+            font-family: 'Orbitron';
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900; margin: 0;
+            color: #fff; text-shadow: 0 0 30px var(--cyan), 0 0 60px var(--cyan);
+            letter-spacing: 10px; text-transform: uppercase;
+            animation: glitch 3s infinite;
+        }
+
+        .cta-subscribe {
+            font-family: 'Orbitron'; font-size: clamp(1rem, 3vw, 2.5rem);
+            color: var(--pink); margin-top: 20px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* BOTTOM TICKER */
+        .footer-ticker {
+            position: absolute; bottom: 0; width: 100%; height: 60px;
+            background: #000; border-top: 4px solid var(--pink);
+            display: flex; align-items: center; overflow: hidden;
+        }
+        .marquee { display: flex; white-space: nowrap; animation: scroll 30s linear infinite; }
+        .marquee span { 
+            padding: 0 100px; font-size: 1.5rem; font-weight: 700; 
+            text-transform: uppercase; color: #aaa;
+        }
+        .highlight { color: var(--cyan); }
+
+        /* KEYFRAMES */
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes glitch {
+            0% { text-shadow: 0 0 20px var(--cyan); }
+            1% { transform: translateX(2px); text-shadow: 2px 0 var(--pink); }
+            2% { transform: translateX(-2px); text-shadow: -2px 0 var(--cyan); }
+            3% { transform: translateX(0); }
+            100% { text-shadow: 0 0 20px var(--cyan); }
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Thanks for Watching!</h1>
-        <p>Hope you enjoyed today's live coverage.</p>
-        <p>Now enjoy some <strong>non-copyright music</strong> and relax.</p>
-        <p>Follow and Subscribe to <strong>VocalReplay</strong> for more live updates and videos.</p>
-        <a href="https://www.youtube.com/@vocalreplay" target="_blank">Subscribe Here</a>
+
+    <div class="timeout-stage">
+        
+        <!-- Top Branding -->
+        <div class="top-brand">
+            <img src="https://yt3.googleusercontent.com/O8e6xK7cSMi0CaregRWysnoiQd9eBx9APoOb1QRABE5r5zKGOT3ZYgQ4U7WSgMtr3dQZzGeRvQ=s800-c-k-c0x00ffffff-no-rj" class="logo">
+            <div class="vocal-text">VOCAL <span>REPLAY</span></div>
+        </div>
+
+        <!-- Center Section -->
+        <div class="center-ui">
+            <h1 class="title">THANKS FOR<br>WATCHING</h1>
+            <div class="cta-subscribe">Hope you enjoyed today's live!<br>Now enjoy non-copyright music and relax.</div>
+            <div class="cta-subscribe">Follow & Subscribe to <strong>VocalReplay</strong></div>
+            <div class="cta-subscribe"><a href="https://www.youtube.com/@vocalreplay" target="_blank" style="color:#00ffff; text-decoration:none;">SUBSCRIBE HERE</a></div>
+        </div>
+
+        <!-- Footer Ticker -->
+        <div class="footer-ticker">
+            <div class="marquee">
+                <span><span class="highlight">SUBSCRIBE:</span> Follow VocalReplay for more live updates and videos</span>
+                <span><span class="highlight">ENJOY:</span> Non-copyright music after match for relaxation</span>
+                <span><span class="highlight">LIKE & SHARE:</span> Support the channel for more content</span>
+                <span><span class="highlight">SUBSCRIBE:</span> Follow VocalReplay for more live updates and videos</span>
+            </div>
+        </div>
+
     </div>
+
 </body>
 </html>
