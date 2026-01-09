@@ -3,203 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocal Replay - CREX Clone Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Vocal Replay - Official Scoreboard</title>
+    <!-- Broadcast Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CREX BRAND COLORS (Extracted from your source) */
+        /* CREX OFFICIAL THEME - EXTRACTED COLORS */
         :root {
-            --ce-primary-bg: #0e161f;
-            --ce-secondary-fg: #151d24;
-            --ce-highlight: #e9df90;
-            --ce-cyan: #00f2ff;
-            --ce-pink: #ff0055;
-            --ce-text-main: #cfd1d3;
-            --ce-text-dim: #9fa3a7;
+            --ce-bg: #0e161f;           /* Main Background */
+            --ce-panel: #151d24;        /* Component Background */
+            --ce-text: #cfd1d3;         /* Main Text color */
+            --ce-dim: #9fa3a7;          /* Sub-text color */
+            --ce-highlight: #e9df90;    /* Golden/Score highlight */
+            --ne-cyan: #00f2ff;         /* Noakhali Brand Color */
+            --rgr-pink: #ff0055;        /* Rangpur Brand Color */
         }
 
         * { box-sizing: border-box; }
         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100vh;
-            background-color: transparent; /* For YouTube Overlays */
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--ce-text-main);
+            margin: 0; padding: 0; width: 100vw; height: 100vh;
+            background-color: #000; font-family: 'Rajdhani', sans-serif;
             overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
 
-        /* 16:9 CONTAINER */
+        /* 16:9 CINEMA STAGE */
         .broadcast-stage {
-            width: 100%; height: 100vh;
-            background: var(--ce-primary-bg);
+            width: 100vw; aspect-ratio: 16 / 9;
+            background: var(--ce-bg);
             display: flex; flex-direction: column;
-            position: relative;
-            border: 1px solid #222;
+            position: relative; border: 2px solid #222;
         }
 
-        /* --- HEADER (CREX STYLE) --- */
+        /* --- TOP SERIES STRIP --- */
+        .series-bar {
+            height: 45px; background: #1a2938; border-bottom: 2px solid #333;
+            display: flex; align-items: center; padding: 0 40px;
+            font-family: 'Orbitron'; font-size: 13px; color: var(--ce-dim);
+            letter-spacing: 2px;
+        }
+        .series-bar span { color: var(--ce-text); font-weight: bold; margin: 0 10px; }
+
+        /* --- OFFICIAL HEADER --- */
         .header {
-            height: 70px; background: #1a2938;
+            height: 100px; padding: 0 50px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 30px; border-bottom: 2px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4); border-bottom: 3px solid var(--ne-cyan);
         }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--ce-cyan); }
-        .vocal-name { font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700; color: #fff; }
-        .vocal-name span { color: var(--ce-pink); }
+        .brand { display: flex; align-items: center; gap: 15px; }
+        .logo { width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--ne-cyan); box-shadow: 0 0 20px var(--ne-cyan); }
+        .brand-name { font-family: 'Orbitron'; font-size: 2rem; font-weight: 900; color: #fff; }
+        .brand-name span { color: var(--rgr-pink); }
 
-        .match-tag {
-            font-family: 'Orbitron'; font-size: 12px; background: rgba(255,0,0,0.2);
-            color: #ff4d4d; padding: 5px 15px; border-radius: 4px; border: 1px solid #ff4d4d;
+        .live-hd-tag {
+            background: rgba(255, 0, 0, 0.15); padding: 8px 20px; border-radius: 4px;
+            border: 1px solid red; color: red; font-family: 'Orbitron'; font-weight: bold;
+            display: flex; align-items: center; gap: 10px;
         }
+        .dot { width: 10px; height: 10px; background: red; border-radius: 50%; animation: blink 1s infinite; }
 
-        /* --- SCORE SECTION --- */
-        .score-main {
+        /* --- MAIN SCORE DISPLAY --- */
+        .score-content {
             flex: 1; display: grid; grid-template-columns: 1fr 1.5fr 1fr;
-            align-items: center; padding: 0 5%; text-align: center;
+            align-items: center; padding: 0 60px;
         }
 
-        .team-box .abbr { font-family: 'Orbitron'; font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; line-height: 1; }
-        .team-box .name { font-size: 1rem; color: var(--ce-text-dim); text-transform: uppercase; letter-spacing: 3px; margin-top: 10px; }
-        .ne-c { color: var(--ce-cyan); text-shadow: 0 0 20px rgba(0,242,255,0.3); }
-        .rgr-c { color: var(--ce-pink); text-shadow: 0 0 20px rgba(255,0,85,0.3); }
+        .team-side { text-align: center; }
+        .team-abbr { font-family: 'Orbitron'; font-size: 7rem; font-weight: 900; }
+        .ne-color { color: var(--ne-cyan); text-shadow: 0 0 30px rgba(0, 242, 255, 0.4); }
+        .rgr-color { color: var(--rgr-pink); text-shadow: 0 0 30px rgba(255, 0, 85, 0.4); }
+        .team-full { font-size: 1.2rem; color: var(--ce-dim); letter-spacing: 5px; margin-top: 10px; }
 
-        .score-display {
-            background: var(--ce-secondary-fg); padding: 30px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+        .score-box {
+            background: var(--ce-panel); padding: 50px; border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05); text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6); position: relative;
         }
-        #score-val { font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 8rem); font-weight: 700; margin: 0; color: #fff; }
-        #overs-val { font-size: clamp(1.2rem, 3vw, 2.5rem); color: var(--ce-highlight); margin-top: 10px; font-weight: 600; }
+        #main-score { font-family: 'Orbitron'; font-size: 8.5rem; font-weight: 900; margin: 0; line-height: 1; color: #fff; }
+        #main-overs { font-size: 2.5rem; color: var(--ce-highlight); margin-top: 15px; font-weight: 600; }
 
-        /* --- PLAYER/PARTNERSHIP MINI-BAR --- */
-        .mini-stats {
-            height: 80px; background: rgba(0,0,0,0.4);
+        /* --- STATS PANEL --- */
+        .stats-panel {
+            height: 90px; background: rgba(0,0,0,0.5);
             display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid #333; font-size: 1.1rem;
+            border-top: 2px solid #333;
         }
-        .stat-item span { color: var(--ce-text-dim); margin-right: 8px; }
-        .stat-value { font-weight: 700; color: #fff; }
+        .stat-group { display: flex; align-items: baseline; gap: 10px; }
+        .stat-label { font-size: 1.1rem; color: var(--ce-dim); font-weight: 600; }
+        .stat-value { font-size: 1.5rem; color: #fff; font-weight: bold; }
 
-        /* --- BOTTOM TICKER --- */
-        .ticker-wrap {
-            height: 50px; background: #131b23; border-top: 3px solid var(--ce-pink);
+        /* --- TICKER BOTTOM --- */
+        .ticker-bottom {
+            height: 60px; background: #000; border-top: 4px solid var(--rgr-pink);
             display: flex; align-items: center; overflow: hidden;
         }
-        .marquee { display: flex; white-space: nowrap; animation: scroll 30s linear infinite; }
-        .marquee span { padding: 0 80px; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; }
+        .marquee { display: flex; white-space: nowrap; animation: scroll 35s linear infinite; }
+        .marquee span { padding: 0 100px; font-size: 1.6rem; font-weight: 700; color: #fff; text-transform: uppercase; }
 
-        /* --- SUBSCRIBE POPUP --- */
-        #sub-popup {
-            position: absolute; left: -400px; bottom: 150px;
-            background: var(--ce-pink); color: white;
-            padding: 15px 40px; border-radius: 0 40px 40px 0;
-            font-family: 'Orbitron'; font-weight: bold;
-            box-shadow: 0 0 30px var(--ce-pink); transition: 0.7s; z-index: 100;
+        /* --- FAILOVER OVERLAY --- */
+        #fail-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 1000; display: none;
+            flex-direction: column; justify-content: center; align-items: center;
         }
-        #sub-popup.active { left: 0; }
 
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="broadcast-stage">
         
-        <!-- Header -->
+        <!-- Failover Screen -->
+        <div id="fail-overlay">
+            <h1 style="font-family: 'Orbitron'; font-size: 5rem; color: var(--ne-cyan);">SYNCING DATA...</h1>
+            <p style="font-size: 2rem; color: var(--rgr-pink); letter-spacing: 10px;">VOCAL REPLAY LIVE STREAM</p>
+        </div>
+
+        <!-- Series Ticker -->
+        <div class="series-bar">
+            BPL 2025-26 <span>|</span> MATCH 20 <span>|</span> SYLHET STADIUM
+        </div>
+
+        <!-- Official Header -->
         <div class="header">
             <div class="brand">
                 <img src="https://yt3.googleusercontent.com/O8e6xK7cSMi0CaregRWysnoiQd9eBx9APoOb1QRABE5r5zKGOT3ZYgQ4U7WSgMtr3dQZzGeRvQ=s800-c-k-c0x00ffffff-no-rj" class="logo">
-                <div class="vocal-name">VOCAL <span>REPLAY</span></div>
+                <div class="brand-name">VOCAL <span>REPLAY</span></div>
             </div>
-            <div class="match-tag">● LIVE HD</div>
-        </div>
-
-        <!-- Main Scoreboard -->
-        <div class="score-main">
-            <div class="team-box">
-                <div class="abbr ne-c">NE</div>
-                <div class="name">Noakhali</div>
-            </div>
-
-            <div class="score-display">
-                <h1 id="score-val">0-0</h1>
-                <div id="overs-val">0.0 OVERS</div>
-            </div>
-
-            <div class="team-box">
-                <div class="abbr rgr-c">RGR</div>
-                <div class="name">Rangpur</div>
+            <div class="live-hd-tag">
+                <div class="dot"></div> LIVE HD
             </div>
         </div>
 
-        <!-- Player Stats Bar -->
-        <div class="mini-stats">
-            <div class="stat-item"><span>CRR:</span><div class="stat-value" id="crr">0.00</div></div>
-            <div class="stat-item"><span>PARTNERSHIP:</span><div class="stat-value" id="pship">0(0)</div></div>
-            <div class="stat-item"><span>TARGET:</span><div class="stat-value" id="target">N/A</div></div>
+        <!-- Main Score Content -->
+        <div class="score-content">
+            <div class="team-side">
+                <div class="team-abbr ne-color">NE</div>
+                <div class="team-full">Noakhali Express</div>
+            </div>
+
+            <div class="score-box">
+                <h1 id="main-score">0-0</h1>
+                <div id="main-overs">0.0 OVERS</div>
+            </div>
+
+            <div class="team-side">
+                <div class="team-abbr rgr-color">RGR</div>
+                <div class="team-full">Rangpur Riders</div>
+            </div>
         </div>
 
-        <!-- Ticker -->
-        <div class="ticker-wrap">
+        <!-- Partnership / CRR Stats Bar -->
+        <div class="stats-panel">
+            <div class="stat-group">
+                <span class="stat-label">CRR:</span>
+                <span class="stat-value" id="crr">0.00</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">PARTNERSHIP:</span>
+                <span class="stat-value" id="pship">0(0)</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">TARGET:</span>
+                <span class="stat-value" id="target">N/A</span>
+            </div>
+        </div>
+
+        <!-- Lower News Ticker -->
+        <div class="ticker-bottom">
             <div class="marquee">
-                <span id="ticker-msg">Welcome to Vocal Replay Live Broadcast - BPL 2026 Season Coverage</span>
-                <span>Hit the Like button and Subscribe to support our channel</span>
-                <span>Welcome to Vocal Replay Live Broadcast - BPL 2026 Season Coverage</span>
+                <span id="match-status">WELCOME TO VOCAL REPLAY - BPL 2026 LIVE MATCH COVERAGE</span>
+                <span>HIT THE LIKE BUTTON AND SUBSCRIBE FOR BALL-BY-BALL COMMENTARY</span>
+                <span id="match-status-2">NOAKHALI EXPRESS VS RANGPUR RIDERS IS LIVE</span>
             </div>
         </div>
-
-        <!-- Sub Alert -->
-        <div id="sub-popup">🔔 SUBSCRIBE FOR MORE INFO!</div>
-
     </div>
 
     <script>
         /**
-         * AUTO-DATA CONFIG
+         * VOCAL REPLAY LIVE SYNC ENGINE
          */
         const API_KEY = "6fe48c60-3178-431d-adc3-30c8d1ff7d50";
-        const SEARCH_NAME = "Rangpur";
+        const TEAM_SEARCH = "Rangpur";
 
-        async function syncData() {
+        async function syncLiveScore() {
             try {
-                const res = await fetch(`https://api.cricapi.com/v1/currentMatches?apikey=${API_KEY}`);
-                const json = await res.json();
-                
-                if (json.status !== "success") return;
+                // Primary Request
+                const response = await fetch(`https://api.cricapi.com/v1/currentMatches?apikey=${API_KEY}`);
+                const data = await response.json();
 
-                const match = json.data.find(m => m.name.includes(SEARCH_NAME) || m.teams.includes(SEARCH_NAME));
+                if (data.status !== "success") throw new Error("API_LIMIT");
+
+                // Logic: Find our specific match
+                const match = data.data.find(m => m.name.includes(TEAM_SEARCH) || m.teams.includes(TEAM_SEARCH));
 
                 if (match) {
-                    updateUI(match);
+                    hideFail();
+                    updateScoreboard(match);
+                } else {
+                    document.getElementById('match-status').innerText = "SEARCHING FOR LIVE BROADCAST FEED...";
                 }
+
             } catch (err) {
-                console.error("API Error");
+                console.warn("Sync failed, trying backup routine...");
+                showFail();
             }
         }
 
-        function updateUI(match) {
-            let s = "0-0", o = "0.0", crr = "0.00";
+        function updateScoreboard(match) {
+            let score = "0-0", overs = "0.0", crr = "0.00", pship = "0(0)";
             
+            // Extract from CricAPI dynamic score array
             if (match.score && match.score.length > 0) {
-                const current = match.score[match.score.length - 1];
-                s = `${current.r}-${current.w}`;
-                o = `${current.o} OVERS`;
+                const live = match.score[match.score.length - 1];
+                score = `${live.r}-${live.w}`;
+                overs = `${live.o} OVERS`;
             }
 
-            document.getElementById('score-val').innerText = s;
-            document.getElementById('overs-val').innerText = o;
-            document.getElementById('ticker-msg').innerText = match.status.toUpperCase();
+            document.getElementById('main-score').innerText = score;
+            document.getElementById('main-overs').innerText = overs;
+            document.getElementById('match-status').innerText = match.status.toUpperCase();
         }
 
-        // Subscribe Animation
-        setInterval(() => {
-            const el = document.getElementById('sub-popup');
-            el.classList.add('active');
-            setTimeout(() => el.classList.remove('active'), 6000);
-        }, 45000);
+        function showFail() { document.getElementById('fail-overlay').style.display = 'flex'; }
+        function hideFail() { document.getElementById('fail-overlay').style.display = 'none'; }
 
-        // Run
-        setInterval(syncData, 60000);
-        syncData();
+        // Start Auto-Refresh Logic (Every 60 Seconds)
+        setInterval(syncLiveScore, 60000);
+        syncLiveScore();
     </script>
 </body>
 </html>
