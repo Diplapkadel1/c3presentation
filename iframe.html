@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Live Score – Vocal Replay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#000;
+  font-family:Rajdhani,sans-serif;
+  color:#fff;
+}
+
+/* HEADER */
+.header{
+  height:80px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:0 25px;
+  background:#050505;
+  border-bottom:3px solid #00f2ff;
+}
+.header img{
+  width:55px;height:55px;
+  border-radius:50%;
+  border:2px solid #00f2ff;
+}
+.header h1{
+  font-family:Orbitron;
+  font-size:1.6rem;
+  letter-spacing:3px;
+}
+.header span{color:#ff0055}
+
+/* SCORE AREA */
+.score-area{
+  position:relative;
+  height:calc(100vh - 140px);
+  background:#000;
+}
+iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  display:none;
+}
+
+/* SUBSCRIBE POPUP */
+.subscribe{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,.85);
+  padding:25px 50px;
+  border-radius:50px;
+  font-family:Orbitron;
+  font-size:1.5rem;
+  border:3px solid #ff0055;
+  box-shadow:0 0 30px #ff0055;
+  animation:pulse 2s infinite;
+  z-index:10;
+}
+@keyframes pulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  50%{transform:translate(-50%,-50%) scale(1.05)}
+}
+
+/* TICKER */
+.ticker{
+  height:60px;
+  background:#000;
+  border-top:3px solid #00f2ff;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+}
+.marquee{
+  display:flex;
+  white-space:nowrap;
+  animation:scroll 35s linear infinite;
+}
+.marquee span{
+  padding:0 100px;
+  font-size:1.2rem;
+  font-weight:700;
+}
+@keyframes scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="https://yt3.googleusercontent.com/O8e6xK7cSMi0CaregRWysnoiQd9eBx9APoOb1QRABE5r5zKGOT3ZYgQ4U7WSgMtr3dQZzGeRvQ=s800-c-k-c0x00ffffff-no-rj">
+  <h1>VOCAL <span>REPLAY</span></h1>
+</div>
+
+<!-- SCOREBOARD -->
+<div class="score-area">
+
+  <!-- Subscribe message (shows sometimes) -->
+  <div class="subscribe" id="subBox">SUBSCRIBE VOCAL REPLAY</div>
+
+  <!-- PRIMARY : CREX -->
+  <iframe id="f1" src="https://crex.com/scoreboard/YHQ/1ZC/20th-Match/1E1/5T/ne-vs-rgr-20th-match-bangladesh-premier-league-2025-26/live"></iframe>
+
+  <!-- BACKUP 1 : CricWaves -->
+  <iframe id="f2" src="https://www.cricwaves.com/widgets/live-score-widget.aspx"></iframe>
+
+  <!-- BACKUP 2 : CricTimes -->
+  <iframe id="f3" src="https://widget.crictimes.org/"></iframe>
+
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="marquee">
+    <span>LIVE BPL 2026 • SUBSCRIBE VOCAL REPLAY • 2ND INNINGS STARTING SOON</span>
+    <span>NOAKHALI EXPRESS vs RANGPUR RIDERS • OFFICIAL SCORE UPDATE</span>
+    <span>FOLLOW VOCAL REPLAY FOR NONSTOP CRICKET COVERAGE</span>
+  </div>
+</div>
+
+<script>
+const frames=[f1,f2,f3];
+let index=0;
+
+function loadFrame(i){
+  frames.forEach(f=>f.style.display="none");
+  frames[i].style.display="block";
+}
+
+loadFrame(0);
+
+setTimeout(()=>loadFrame(1),7000);
+setTimeout(()=>loadFrame(2),14000);
+
+/* subscribe popup show/hide */
+setInterval(()=>{
+  subBox.style.display="block";
+  setTimeout(()=>subBox.style.display="none",5000);
+},30000);
+</script>
+
+</body>
+</html>
