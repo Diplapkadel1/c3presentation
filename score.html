@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocal Replay - CREX Clone Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CREX BRAND COLORS (Extracted from your source) */
+        :root {
+            --ce-primary-bg: #0e161f;
+            --ce-secondary-fg: #151d24;
+            --ce-highlight: #e9df90;
+            --ce-cyan: #00f2ff;
+            --ce-pink: #ff0055;
+            --ce-text-main: #cfd1d3;
+            --ce-text-dim: #9fa3a7;
+        }
+
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100vh;
+            background-color: transparent; /* For YouTube Overlays */
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--ce-text-main);
+            overflow: hidden; display: flex; justify-content: center; align-items: center;
+        }
+
+        /* 16:9 CONTAINER */
+        .broadcast-stage {
+            width: 100%; height: 100vh;
+            background: var(--ce-primary-bg);
+            display: flex; flex-direction: column;
+            position: relative;
+            border: 1px solid #222;
+        }
+
+        /* --- HEADER (CREX STYLE) --- */
+        .header {
+            height: 70px; background: #1a2938;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--ce-cyan); }
+        .vocal-name { font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700; color: #fff; }
+        .vocal-name span { color: var(--ce-pink); }
+
+        .match-tag {
+            font-family: 'Orbitron'; font-size: 12px; background: rgba(255,0,0,0.2);
+            color: #ff4d4d; padding: 5px 15px; border-radius: 4px; border: 1px solid #ff4d4d;
+        }
+
+        /* --- SCORE SECTION --- */
+        .score-main {
+            flex: 1; display: grid; grid-template-columns: 1fr 1.5fr 1fr;
+            align-items: center; padding: 0 5%; text-align: center;
+        }
+
+        .team-box .abbr { font-family: 'Orbitron'; font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; line-height: 1; }
+        .team-box .name { font-size: 1rem; color: var(--ce-text-dim); text-transform: uppercase; letter-spacing: 3px; margin-top: 10px; }
+        .ne-c { color: var(--ce-cyan); text-shadow: 0 0 20px rgba(0,242,255,0.3); }
+        .rgr-c { color: var(--ce-pink); text-shadow: 0 0 20px rgba(255,0,85,0.3); }
+
+        .score-display {
+            background: var(--ce-secondary-fg); padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+        }
+        #score-val { font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 8rem); font-weight: 700; margin: 0; color: #fff; }
+        #overs-val { font-size: clamp(1.2rem, 3vw, 2.5rem); color: var(--ce-highlight); margin-top: 10px; font-weight: 600; }
+
+        /* --- PLAYER/PARTNERSHIP MINI-BAR --- */
+        .mini-stats {
+            height: 80px; background: rgba(0,0,0,0.4);
+            display: flex; justify-content: space-around; align-items: center;
+            border-top: 1px solid #333; font-size: 1.1rem;
+        }
+        .stat-item span { color: var(--ce-text-dim); margin-right: 8px; }
+        .stat-value { font-weight: 700; color: #fff; }
+
+        /* --- BOTTOM TICKER --- */
+        .ticker-wrap {
+            height: 50px; background: #131b23; border-top: 3px solid var(--ce-pink);
+            display: flex; align-items: center; overflow: hidden;
+        }
+        .marquee { display: flex; white-space: nowrap; animation: scroll 30s linear infinite; }
+        .marquee span { padding: 0 80px; font-size: 1.4rem; font-weight: 700; text-transform: uppercase; }
+
+        /* --- SUBSCRIBE POPUP --- */
+        #sub-popup {
+            position: absolute; left: -400px; bottom: 150px;
+            background: var(--ce-pink); color: white;
+            padding: 15px 40px; border-radius: 0 40px 40px 0;
+            font-family: 'Orbitron'; font-weight: bold;
+            box-shadow: 0 0 30px var(--ce-pink); transition: 0.7s; z-index: 100;
+        }
+        #sub-popup.active { left: 0; }
+
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-stage">
+        
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <img src="https://yt3.googleusercontent.com/O8e6xK7cSMi0CaregRWysnoiQd9eBx9APoOb1QRABE5r5zKGOT3ZYgQ4U7WSgMtr3dQZzGeRvQ=s800-c-k-c0x00ffffff-no-rj" class="logo">
+                <div class="vocal-name">VOCAL <span>REPLAY</span></div>
+            </div>
+            <div class="match-tag">● LIVE HD</div>
+        </div>
+
+        <!-- Main Scoreboard -->
+        <div class="score-main">
+            <div class="team-box">
+                <div class="abbr ne-c">NE</div>
+                <div class="name">Noakhali</div>
+            </div>
+
+            <div class="score-display">
+                <h1 id="score-val">0-0</h1>
+                <div id="overs-val">0.0 OVERS</div>
+            </div>
+
+            <div class="team-box">
+                <div class="abbr rgr-c">RGR</div>
+                <div class="name">Rangpur</div>
+            </div>
+        </div>
+
+        <!-- Player Stats Bar -->
+        <div class="mini-stats">
+            <div class="stat-item"><span>CRR:</span><div class="stat-value" id="crr">0.00</div></div>
+            <div class="stat-item"><span>PARTNERSHIP:</span><div class="stat-value" id="pship">0(0)</div></div>
+            <div class="stat-item"><span>TARGET:</span><div class="stat-value" id="target">N/A</div></div>
+        </div>
+
+        <!-- Ticker -->
+        <div class="ticker-wrap">
+            <div class="marquee">
+                <span id="ticker-msg">Welcome to Vocal Replay Live Broadcast - BPL 2026 Season Coverage</span>
+                <span>Hit the Like button and Subscribe to support our channel</span>
+                <span>Welcome to Vocal Replay Live Broadcast - BPL 2026 Season Coverage</span>
+            </div>
+        </div>
+
+        <!-- Sub Alert -->
+        <div id="sub-popup">🔔 SUBSCRIBE FOR MORE INFO!</div>
+
+    </div>
+
+    <script>
+        /**
+         * AUTO-DATA CONFIG
+         */
+        const API_KEY = "6fe48c60-3178-431d-adc3-30c8d1ff7d50";
+        const SEARCH_NAME = "Rangpur";
+
+        async function syncData() {
+            try {
+                const res = await fetch(`https://api.cricapi.com/v1/currentMatches?apikey=${API_KEY}`);
+                const json = await res.json();
+                
+                if (json.status !== "success") return;
+
+                const match = json.data.find(m => m.name.includes(SEARCH_NAME) || m.teams.includes(SEARCH_NAME));
+
+                if (match) {
+                    updateUI(match);
+                }
+            } catch (err) {
+                console.error("API Error");
+            }
+        }
+
+        function updateUI(match) {
+            let s = "0-0", o = "0.0", crr = "0.00";
+            
+            if (match.score && match.score.length > 0) {
+                const current = match.score[match.score.length - 1];
+                s = `${current.r}-${current.w}`;
+                o = `${current.o} OVERS`;
+            }
+
+            document.getElementById('score-val').innerText = s;
+            document.getElementById('overs-val').innerText = o;
+            document.getElementById('ticker-msg').innerText = match.status.toUpperCase();
+        }
+
+        // Subscribe Animation
+        setInterval(() => {
+            const el = document.getElementById('sub-popup');
+            el.classList.add('active');
+            setTimeout(() => el.classList.remove('active'), 6000);
+        }, 45000);
+
+        // Run
+        setInterval(syncData, 60000);
+        syncData();
+    </script>
+</body>
+</html>
