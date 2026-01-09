@@ -1,1 +1,165 @@
-https://diplapkadel1.github.io/c3presentation/scorecard.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Time Out - Vocal Replay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cyan: #00f2ff;
+            --pink: #ff0055;
+            --bg: #050505;
+        }
+
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--bg);
+            color: white; font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+        }
+
+        /* ANIMATED BACKGROUND */
+        .timeout-stage {
+            width: 100%; height: 100vh;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative;
+            border: 10px solid #111;
+        }
+
+        /* ENERGY GLOW IN BACKGROUND */
+        .timeout-stage::before {
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 242, 255, 0.03), transparent);
+            background-size: 200% 200%; animation: moveGradient 5s linear infinite;
+        }
+
+        /* TOP BRANDING */
+        .top-brand {
+            position: absolute; top: 50px; display: flex; align-items: center; gap: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+        .logo {
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid var(--cyan); box-shadow: 0 0 20px var(--cyan);
+        }
+        .vocal-text { font-family: 'Orbitron'; font-size: 2rem; font-weight: 900; letter-spacing: 3px; }
+        .vocal-text span { color: var(--pink); }
+
+        /* CENTER CONTENT */
+        .center-ui { text-align: center; z-index: 10; }
+
+        .title {
+            font-family: 'Orbitron';
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900; margin: 0;
+            color: #fff; text-shadow: 0 0 30px var(--cyan), 0 0 60px var(--cyan);
+            letter-spacing: 10px; text-transform: uppercase;
+            animation: glitch 3s infinite;
+        }
+
+        .cta-subscribe {
+            font-family: 'Orbitron'; font-size: clamp(1rem, 3vw, 2.5rem);
+            color: var(--pink); margin-top: 20px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* COUNTDOWN TIMER */
+        .timer-wrap {
+            margin-top: 40px; background: rgba(255, 255, 255, 0.05);
+            padding: 20px 60px; border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        #timer { font-family: 'Orbitron'; font-size: 4rem; font-weight: 700; color: #fff; }
+
+        /* BOTTOM TICKER */
+        .footer-ticker {
+            position: absolute; bottom: 0; width: 100%; height: 60px;
+            background: #000; border-top: 4px solid var(--pink);
+            display: flex; align-items: center; overflow: hidden;
+        }
+        .marquee { display: flex; white-space: nowrap; animation: scroll 30s linear infinite; }
+        .marquee span { 
+            padding: 0 100px; font-size: 1.5rem; font-weight: 700; 
+            text-transform: uppercase; color: #aaa;
+        }
+        .highlight { color: var(--cyan); }
+
+        /* KEYFRAMES */
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        
+        @keyframes glitch {
+            0% { text-shadow: 0 0 20px var(--cyan); }
+            1% { transform: translateX(2px); text-shadow: 2px 0 var(--pink); }
+            2% { transform: translateX(-2px); text-shadow: -2px 0 var(--cyan); }
+            3% { transform: translateX(0); }
+            100% { text-shadow: 0 0 20px var(--cyan); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="timeout-stage">
+        
+        <!-- Top Branding -->
+        <div class="top-brand">
+            <img src="https://yt3.googleusercontent.com/O8e6xK7cSMi0CaregRWysnoiQd9eBx9APoOb1QRABE5r5zKGOT3ZYgQ4U7WSgMtr3dQZzGeRvQ=s800-c-k-c0x00ffffff-no-rj" class="logo">
+            <div class="vocal-text">VOCAL <span>REPLAY</span></div>
+        </div>
+
+        <!-- Center Section -->
+        <div class="center-ui">
+            <h1 class="title">STRATEGIC<br>TIME OUT</h1>
+            <div class="cta-subscribe">SUBSCRIBE FOR MORE LIVE ACTION!</div>
+            
+            <div class="timer-wrap">
+                <div id="timer">02:30</div>
+            </div>
+        </div>
+
+        <!-- Footer Ticker -->
+        <div class="footer-ticker">
+            <div class="marquee">
+                <span><span class="highlight">INFO:</span> Noakhali Express vs Rangpur Riders - Match 20 Live coverage</span>
+                <span><span class="highlight">SUBSCRIBE:</span> Hit the bell icon for live ball-by-ball updates</span>
+                <span><span class="highlight">SOCIAL:</span> Follow Vocal Replay on Facebook and Telegram</span>
+                <span><span class="highlight">INFO:</span> Noakhali Express vs Rangpur Riders - Match 20 Live coverage</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Standard 2:30 Strategic Time Out Countdown
+        let time = 150; // 2 minutes and 30 seconds
+        const timerElement = document.getElementById('timer');
+
+        function startTimer() {
+            const minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+            timerElement.innerHTML = `0${minutes}:${seconds}`;
+            
+            if (time > 0) {
+                time--;
+            } else {
+                // When timer ends, reset for next timeout or stay at 0
+                timerElement.innerHTML = "BACK SOON";
+                timerElement.style.color = "#00f2ff";
+            }
+        }
+
+        setInterval(startTimer, 1000);
+    </script>
+</body>
+</html>
