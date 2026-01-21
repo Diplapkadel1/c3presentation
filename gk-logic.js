@@ -15,6 +15,7 @@
 
     let images = [];
 
+    // Fetch image list
     window.initGKGadget = async function(btnId, txtId, wrapperId) {
         const btn = document.getElementById(btnId);
         const txt = document.getElementById(txtId);
@@ -24,37 +25,37 @@
             const res = await fetch(IMAGE_API);
             const files = await res.json();
             images = files.map(f => BASE_URL + decodeURIComponent(f));
-        } catch(e) {
+        } catch (e) {
             console.error("Failed to load images", e);
             images = [];
         }
 
-        function showScold() {
-            btn.style.display = 'none';
-            wrap.innerHTML = '<div style="color:#ff0055;font-size:14px;font-weight:900;padding:5px;text-align:center;">I TOLD YOU.</div>';
-            setTimeout(() => location.reload(), 5000); // refresh after 5s
-        }
-
-        if(localStorage.getItem('gk_clicked') === 'true') {
-            showScold();
-            return;
-        }
-
+        // Function to update the button image and message
         function update() {
-            if(!images.length) return;
+            if (!images.length) return;
+
             const img = images[Math.floor(Math.random() * images.length)];
             const msg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+
+            // Smooth background change effect
+            btn.style.transition = "background-image 1s ease-in-out";
             btn.style.backgroundImage = `url('${img}')`;
+
+            // Update the message on the button
             txt.innerText = msg;
         }
 
+        // Keep updating the image every 5-7 seconds (let's use 6 seconds)
+        setInterval(update, 6000);
+
+        // Initial update
+        update();
+
+        // Don't show the "I TOLD YOU" message, just keep showing images after the first click
         btn.onclick = function() {
             localStorage.setItem('gk_clicked', 'true');
-            showScold();
+            // Prevent refresh, just keep showing images
             window.location.href = TARGET_URL;
-        }
-
-        update();
-        setInterval(update, 10000); // now every 10 seconds
+        };
     };
 })();
