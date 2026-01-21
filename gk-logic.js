@@ -20,7 +20,6 @@
         const txt = document.getElementById(txtId);
         const wrap = document.getElementById(wrapperId);
 
-        // Fetch images
         try {
             const res = await fetch(IMAGE_API);
             const files = await res.json();
@@ -56,6 +55,6 @@
         }
 
         update();
-        setInterval(update, 5000); // slow down rotation to every 5 seconds
+        setInterval(update, 10000); // now every 10 seconds
     };
 })();
