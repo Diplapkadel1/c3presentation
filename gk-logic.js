@@ -1,7 +1,7 @@
 (function() {
     const TARGET_URL = "https://robeheadlong.com/nhr0t2ewi3?key=9db44ef69b69e083cab6f7c77a238a6d";
     const BASE_URL = "https://www.saishuu-hentai.net/hmoviepic/";
-    const IMAGE_API = "https://c3.unaux.com/images.php";
+    const IMAGE_API = "https://late-snowflake-9514.news-nepal-2082.workers.dev/";  // Cloudflare Worker URL
     const MESSAGES = [
         "Are you alone?",
         "Don't click me",
@@ -15,7 +15,7 @@
 
     let images = [];
 
-    // Fetch image list
+    // Fetch image list from Cloudflare Worker
     window.initGKGadget = async function(btnId, txtId, wrapperId) {
         const btn = document.getElementById(btnId);
         const txt = document.getElementById(txtId);
